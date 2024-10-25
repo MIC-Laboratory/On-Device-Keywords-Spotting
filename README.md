@@ -42,6 +42,7 @@ bash ./run.sh
 ### How to Deploy on Arduino
 The deployment on Arduino is facilitated through the `run.sh` script, which prepares the model in a compatible format:
 
+0. Follow this intruction to set up your arduino Board Manager: https://github.com/zhenyulincs/Sony-Spresense-Arduino-TFMicro
 1. Run the `run.sh` script to ensure the model is converted to a TensorFlow Lite format and then to a C header file.
 2. Integrate the generated C header file with your Arduino sketch and upload it to the Arduino environment.
 

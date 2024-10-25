@@ -1,5 +1,4 @@
 //#include "tensorflow/lite/micro/all_ops_resolver.h"
-#include "tensorflow/lite/micro/micro_error_reporter.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/micro/system_setup.h"
 #include "tensorflow/lite/schema/schema_generated.h"
@@ -25,7 +24,6 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 AudioClass *audio;
 const char * classes[] = {"Waiting...","yes", "no", "up", "down", "left", "right", "forward", "backward"};
 char buffer[BUFFER_SIZE];
-tflite::ErrorReporter* error_reporter = nullptr;
 tflite::Model* model = nullptr;
 tflite::MicroInterpreter* interpreter = nullptr;
 TfLiteTensor* input = nullptr;
@@ -61,8 +59,7 @@ void setup() {
   tflite::InitializeTarget();
   memset(tensor_arena, 0, kTensorArenaSize * sizeof(uint8_t));
 
-  static tflite::MicroErrorReporter micro_error_reporter;
-  error_reporter = &micro_error_reporter;
+
 
   model = tflite::GetModel(model_tflite);
   if (model->version() != TFLITE_SCHEMA_VERSION) {
@@ -84,7 +81,7 @@ void setup() {
   RegisterDebugLogCallback(debug_log_printf);
 
   static tflite::MicroInterpreter static_interpreter(
-    model, resolver, tensor_arena, kTensorArenaSize, error_reporter);
+    model, resolver, tensor_arena, kTensorArenaSize);
   interpreter = &static_interpreter;
 
   TfLiteStatus allocate_status = interpreter->AllocateTensors();
