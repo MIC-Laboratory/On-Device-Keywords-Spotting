@@ -78,6 +78,7 @@ void setup() {
   resolver.AddFullyConnected();
   resolver.AddMaxPool2D();
   resolver.AddReshape();
+  resolver.AddStridedSlice();
   RegisterDebugLogCallback(debug_log_printf);
 
   static tflite::MicroInterpreter static_interpreter(
@@ -149,8 +150,8 @@ void loop() {
   display.setTextSize(1); 
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(0, 0);
-
-  display.println("Inf= " + String(duration));
+  char * label = classes[maxIndex];
+  display.println("Inf= " + String(label));
   display.display(); 
   
 }
